@@ -13,7 +13,7 @@ function App() {
         </header>
       <div className="container">
 
-        {/* <PlayRandomMoveEngine /> */}
+        <PlayRandomMoveEngine />
         <Camera />
         <LoadPGN />
 

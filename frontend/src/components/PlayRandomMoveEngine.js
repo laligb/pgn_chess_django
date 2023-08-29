@@ -37,9 +37,9 @@ export default function PlayRandomMoveEngine() {
 
 
 
-  return <>
-    <Chessboard position={game.fen()} onPieceDrop={onDrop} />
+  return <div className="custom-chessboard">
+    <Chessboard position={game.fen()} onPieceDrop={onDrop}  />
     <div className="notation">{game.pgn()}</div>
     <br></br>
-  </>;
+  </div>;
 }
