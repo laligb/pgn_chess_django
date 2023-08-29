@@ -1,27 +1,36 @@
 import Webcam from "react-webcam";
 import { useCallback, useRef, useState } from "react";
 
+
 function Camera() {
   const webcamRef = useRef(null);
   const [imgSrc, setImgSrc] = useState(null);
 
+
+
   // create a capture function
-  const capture = useCallback(() => {
+  const capture = useCallback(async () => {
     console.log('Starting the callback')
     const imageSrc = webcamRef.current.getScreenshot();
     setImgSrc(imageSrc);
-    console.log(imageSrc)
 
+    const response = await fetch('https://chess-yarc62mhna-ew.a.run.app', {
+      method: 'POST',
+      body: JSON.stringify(imageSrc),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    // const result = await response.json();
 
-    // var binary_string = window.atob(imageSrc);;
-    // var len = binary_string.length;
-    // var bytes = new Uint8Array(len);
-    // for (var i = 0; i < len; i++) {
-    //     bytes[i] = binary_string.charCodeAt(i);
-    // }
-    // console.log(bytes.buffer)
+    let image = new Image()
+    image.src = imageSrc
 
   }, [webcamRef, imgSrc]);
+
+
+
+
 
 
 
