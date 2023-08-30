@@ -1,38 +1,42 @@
 import Webcam from "react-webcam";
-import { useCallback, useRef, useState } from "react";
-
+import { useRef, useState } from "react";
 
 function Camera() {
   const webcamRef = useRef(null);
   const [imgSrc, setImgSrc] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-
-
-  // create a capture function
-  const capture = useCallback(async () => {
-    console.log('Starting the callback')
+  async function OnClick() {
+    console.log("Starting the callback");
     const imageSrc = webcamRef.current.getScreenshot();
     setImgSrc(imageSrc);
+    setLoading(true);
 
-    const response = await fetch('https://chess-yarc62mhna-ew.a.run.app', {
-      method: 'POST',
-      body: JSON.stringify(imageSrc),
-      headers: {
-        'Content-Type': 'application/json'
+    try {
+      // Convert the base64 image data to a binary blob
+      const imageBlob = await (await fetch(imageSrc)).blob();
+
+      // Create a FormData object to send the image as a binary file
+      const formData = new FormData();
+      formData.append("image", imageBlob, "image.png");
+
+      const response = await fetch("https://chess-yarc62mhna-ew.a.run.app", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (response.ok) {
+        console.log("Image uploaded successfully");
+      } else {
+        console.log("Image upload failed");
       }
-    });
-    // const result = await response.json();
-
-    let image = new Image()
-    image.src = imageSrc
-
-  }, [webcamRef, imgSrc]);
-
-
-
-
-
-
+    } catch (error) {
+      console.log("Error:", error.message);
+    } finally {
+      console.log("Finished fetch");
+      setLoading(false);
+    }
+  }
 
   return (
     <div className="camera">
@@ -40,14 +44,17 @@ function Camera() {
         <img src={imgSrc} alt="webcam" />
       ) : (
         <Webcam
-        height={600} width={600} ref={webcamRef}
-        screenshotFormat="image/png" />
+          height={600}
+          width={600}
+          ref={webcamRef}
+          screenshotFormat="image/png"
+        />
       )}
       <div className="btn-container">
-        <button onClick={()=>capture()}>Capture photo</button>
+        <button onClick={OnClick}>Capture photo</button>
       </div>
     </div>
   );
 }
 
-export default Camera
+export default Camera;

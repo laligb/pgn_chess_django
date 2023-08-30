@@ -33,81 +33,46 @@ function LoadPGN() {
   const [moveIndex, setMoveIndex] = useState(24);
 
   const moves = game.history({ verbose: true });
-  const currentMove = moves[moveIndex] || {};
-
   game.load_pgn(PGN.join('\n'));
-
-  const handleMove = (move) => {
-    if (game.move(move)) {
-      setFen(game.fen());
-      setMoveIndex(moveIndex + 1);
-    }
-  };
-
-  const handleKeyboardInput = (event) => {
-    if (event.key === 'ArrowLeft') {
-      handlePreviousMove();
-    } else if (event.key === 'ArrowRight') {
-      handleMove(moves[moveIndex + 1]);
-    }
-  };
 
   useEffect(() => {
     game.load_pgn(PGN.join('\n'));
     setFen(game.fen());
-
-    window.addEventListener('keydown', handleKeyboardInput);
-    return () => {
-      window.removeEventListener('keydown', handleKeyboardInput);
-    };
   }, []);
 
 
   const handlePreviousMove = () => {
     if (moveIndex > 0) {
+      setMoveIndex(moveIndex - 1);
       game.undo();
       setFen(game.fen());
-      setMoveIndex(moveIndex - 1);
+    }
+  };
+
+  const handleNextMove = () => {
+    if (moveIndex < moves.length) {
+      game.move(moves[moveIndex]);
+      setFen(game.fen());
+      setMoveIndex(moveIndex + 1);
     }
   };
 
   return (
     <div className='custom-chessboard'>
-      <Chessboard
-        // position={game.fen()}
-        onDrop={(move) =>
-          handleMove({
-            from: move.sourceSquare,
-            to: move.targetSquare,
-            promotion: 'q', // Default promotion to queen
-          })
-
-        }
-        onClick={(event) =>
-          handleKeyboardInput({
-
-
-          })
-        }
-      />
-      <div>
-
-      {moves.map((move, index) => (
-          <button key={index} onClick={() => handleMove(move)}>
-            {move.san}
-          </button>
-        ))}
-
-        <div>
-
-        <button
-          onClick={() => handleMove(moves[moveIndex + 1])}
-          disabled={moveIndex >= moves.length - 1}
-        >
-          Next Move
-        </button>
-      </div>
+    <Chessboard position={fen} />
+    <div>
+      <button onClick={handlePreviousMove} disabled={moveIndex === 0}>
+        Previous Move
+      </button>
+      <button
+        onClick={handleNextMove}
+        disabled={moveIndex >= moves.length}
+      >
+        Next Move
+      </button>
     </div>
+    <div className='notation'>{moves[moveIndex]?.san}</div>
+
 
       <div className="notation">{game.pgn()}</div>
     </div>
