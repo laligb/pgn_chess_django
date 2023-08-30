@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import {PGN} from './pgn_example';
 import Chess from "chess.js";
 import { Chessboard } from "react-chessboard";
@@ -28,61 +28,94 @@ function LoadPGN() {
     '23.Bd7+ Kf8 24.Bxe7# 1-0',
   ]
 
+
+
+
   const [game, setGame] = useState(new Chess());
-  const [fen, setFen] = useState(game.fen());
-  const [moveIndex, setMoveIndex] = useState(24);
+  //const [fen, setFen] = useState(game.fen());
+  const [fenList, setFenList] = useState([]);
+  const [moveIndex, setMoveIndex] = useState(0);
 
-  const moves = game.history({ verbose: true });
+
   let moves_pgn = game.load_pgn(PGN.join('\n'));
+  const moves = game.history({ verbose: true });
 
-  console.log(moves)
-  console.log(moves_pgn)
 
   /*
 
   1. create notation list of fen positions. [fen0, fen1, fen2...]
   2. connect each fen with index of move. (index + 1 is number of move)
-  3.
 
   */
 
-  useEffect(() => {
-    game.load_pgn(PGN.join('\n'));
-    setFen(game.fen());
-  }, []);
+  console.log(fenList[moveIndex])
+  console.log(moveIndex+1)
+  console.log(game)
 
+  console.log(moves[0].to)
+
+
+  let move_list = []
+  let temp = ""
+  for (let i of moves){
+    console.log(typeof(i.to))
+    temp = temp + " " + i.to
+    move_list.push(temp)
+
+  }
+  console.log(move_list)
+
+
+
+ // const [tempGame, setTempGame] = useState(new Chess());
+  const updatedFenList = [];
+  for (let current_moves of move_list){
+    console.log(current_moves)
+    const tempGame = new Chess(game.fen());
+    tempGame.load_pgn(current_moves)
+
+    updatedFenList.push(tempGame.fen());
+
+  }
+
+  setFenList(updatedFenList)
+
+
+  console.log(fenList)
+  // console.log(game.fen())
 
   const handlePreviousMove = () => {
     if (moveIndex > 0) {
       setMoveIndex(moveIndex - 1);
-      game.undo();
-      setFen(game.fen());
     }
   };
 
   const handleNextMove = () => {
     if (moveIndex < moves.length) {
-      game.move(moves[moveIndex]);
-      setFen(game.fen());
       setMoveIndex(moveIndex + 1);
     }
   };
 
+
+
   return (
     <div className='custom-chessboard'>
-    <Chessboard position={fen} />
-    <div>
-      <button onClick={handlePreviousMove} disabled={moveIndex === 0}>
-        Previous Move
-      </button>
-      <button
-        onClick={handleNextMove}
-        disabled={moveIndex >= moves.length}
-      >
-        Next Move
-      </button>
-    </div>
-    <div className='notation'>{moves[moveIndex]?.san}</div>
+    <Chessboard
+    position={fenList[moveIndex]}
+    //position={tempGame.fen()}
+    />
+      <div>
+        <button onClick={handlePreviousMove} disabled={moveIndex === 0}>
+          Previous Move
+        </button>
+        <button
+          onClick={handleNextMove}
+          disabled={moveIndex >= fenList.length - 1}
+        >
+          Next Move
+        </button>
+      </div>
+      <div className='notation'>{moves[moveIndex]?.san}</div>
 
 
       <div className="notation">{game.pgn()}</div>
