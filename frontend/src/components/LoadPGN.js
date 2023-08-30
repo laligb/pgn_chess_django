@@ -2,6 +2,7 @@ import React, {useState, useEffect, useCallback} from 'react';
 import {PGN} from './pgn_example';
 import Chess from "chess.js";
 import { Chessboard } from "react-chessboard";
+import { Link} from 'react-router-dom'
 
 
 function LoadPGN() {
@@ -52,9 +53,10 @@ function LoadPGN() {
   console.log(moveIndex+1)
   console.log(game)
 
-  console.log(moves[0].to)
+  console.log(moves[0].to) //returns the move
 
 
+  // Creating list of moves in current position
   let move_list = []
   let temp = ""
   for (let i of moves){
@@ -66,19 +68,19 @@ function LoadPGN() {
   console.log(move_list)
 
 
-
+ // From moves list creating fen list
  // const [tempGame, setTempGame] = useState(new Chess());
-  const updatedFenList = [];
-  for (let current_moves of move_list){
-    console.log(current_moves)
-    const tempGame = new Chess(game.fen());
-    tempGame.load_pgn(current_moves)
+  // const updatedFenList = [];
+  // for (let current_moves of move_list){
+  //   console.log(current_moves)
+  //   const tempGame = new Chess(game.fen());
+  //   tempGame.load_pgn(current_moves)
 
-    updatedFenList.push(tempGame.fen());
+  //   updatedFenList.push(tempGame.fen());
 
-  }
+  // }
 
-  setFenList(updatedFenList)
+  // setFenList(updatedFenList)
 
 
   console.log(fenList)
@@ -99,26 +101,31 @@ function LoadPGN() {
 
 
   return (
-    <div className='custom-chessboard'>
-    <Chessboard
-    position={fenList[moveIndex]}
-    //position={tempGame.fen()}
-    />
-      <div>
-        <button onClick={handlePreviousMove} disabled={moveIndex === 0}>
-          Previous Move
-        </button>
-        <button
-          onClick={handleNextMove}
-          disabled={moveIndex >= fenList.length - 1}
-        >
-          Next Move
-        </button>
-      </div>
-      <div className='notation'>{moves[moveIndex]?.san}</div>
+    <div className='row d-flex justify-content-center'>
+     <Link to="/camera" className="scan-photo"><h2>SCAN YOUR CHESS GAME SCORESHEET</h2></Link>
+      <div className="col-lg-6 col-md-6 col-sm-10">
 
+        <Chessboard
+          position={fenList[moveIndex]}
+          //position={tempGame.fen()}
+        />
 
-      <div className="notation">{game.pgn()}</div>
+          <button onClick={handlePreviousMove} disabled={moveIndex === 0}>
+            Previous Move
+          </button>
+          <button
+            onClick={handleNextMove}
+            disabled={moveIndex >= fenList.length - 1}
+          >
+            Next Move
+          </button>
+
+         <div className='notation'>{moves[moveIndex]?.san}</div>
+        </div>
+
+      <div className="col-lg-6 col-md-6 col-sm-10">
+        {game.pgn()}
+        </div>
     </div>
   )
 }

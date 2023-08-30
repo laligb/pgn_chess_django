@@ -39,13 +39,13 @@ function Camera() {
   }
 
   return (
-    <div className="camera">
+    <div className='row' >
       {imgSrc ? (
         <img src={imgSrc} alt="webcam" />
       ) : (
         <Webcam
-          height={600}
-          width={600}
+          height={578}
+          width={483}
           ref={webcamRef}
           screenshotFormat="image/png"
         />
@@ -58,3 +58,7 @@ function Camera() {
 }
 
 export default Camera;
+
+// 1: 1.166667
+// width - 1450
+// height - 1734
