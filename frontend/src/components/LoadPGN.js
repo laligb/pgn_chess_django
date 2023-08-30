@@ -33,7 +33,18 @@ function LoadPGN() {
   const [moveIndex, setMoveIndex] = useState(24);
 
   const moves = game.history({ verbose: true });
-  game.load_pgn(PGN.join('\n'));
+  let moves_pgn = game.load_pgn(PGN.join('\n'));
+
+  console.log(moves)
+  console.log(moves_pgn)
+
+  /*
+
+  1. create notation list of fen positions. [fen0, fen1, fen2...]
+  2. connect each fen with index of move. (index + 1 is number of move)
+  3.
+
+  */
 
   useEffect(() => {
     game.load_pgn(PGN.join('\n'));

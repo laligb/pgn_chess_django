@@ -20,7 +20,7 @@ function Camera() {
       const formData = new FormData();
       formData.append("image", imageBlob, "image.png");
 
-      const response = await fetch("https://chess-yarc62mhna-ew.a.run.app", {
+      const response = await fetch("https://chess-yarc62mhna-ew.a.run.app/upload", {
         method: "POST",
         body: formData,
       });
