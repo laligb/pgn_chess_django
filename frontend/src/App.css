@@ -1,7 +1,7 @@
-
-
 .App {
   text-align: center;
+  background-color: aliceblue;
+
 }
 
 
@@ -27,6 +27,7 @@
 
 .container{
   margin: 10px;
+  min-height: 700px;
 }
 
 
@@ -43,4 +44,18 @@
 
 .navbar a{
   color:  #d4dcdf;
+}
+
+.logo{
+  width:70px;
+}
+
+.navbar-custom{
+  background-color: rgb(1, 70, 64);
+}
+
+footer{
+  padding-bottom: 10px;
+  padding-top: 10px;
+  color: rgb(154, 173, 178);
 }

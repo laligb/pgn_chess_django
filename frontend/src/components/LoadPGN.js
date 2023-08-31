@@ -83,20 +83,20 @@ function LoadPGN({ fens, responsePGN }) {
           position={fens[moveIndex]}
         />
 
-      <div className="mt-4">
+      <div className="mt-2">
         <button
           onClick={handlePreviousMove}
           className="mr-2 rounded bg-slate-300 px-4 py-2 text-black"
           disabled={moveIndex === 0}
         >
-          Previous
+          〈
         </button>
         <button
           onClick={handleNextMove}
           className="rounded bg-slate-300 px-4 py-2 text-black"
           disabled={moveIndex === fens.length - 1}
         >
-          Next
+          〉
         </button>
 
         <button

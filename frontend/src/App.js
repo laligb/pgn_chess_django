@@ -26,7 +26,11 @@ function App() {
 
           {/* <PlayRandomMoveEngine /> */}
 
+
       </div>
+      <footer className='footer navbar-custom'>
+          <p>Lali Bibilashvili, Amanda Aurora, David Rosillo</p>
+        </footer>
     </div>
   );
 }
