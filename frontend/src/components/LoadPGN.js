@@ -58,7 +58,7 @@ function LoadPGN({ fens, responsePGN }) {
     }
   };
 
-s
+
   function downloadFile({responsePGN}){
 
       const blob = new Blob([responsePGN], { type: "text/plain" });
