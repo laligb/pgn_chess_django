@@ -58,13 +58,13 @@ function LoadPGN({ fens, responsePGN }) {
     }
   };
 
-
-  function downloadFile(responsePGN){
+s
+  function downloadFile({responsePGN}){
 
       const blob = new Blob([responsePGN], { type: "text/plain" });
       const url = URL.createObjectURL(blob);
       const link = document.createElement("a");
-      link.download = "chess-games.json";
+      link.download = "chess-games.txt";
       link.href = url;
       console.log('download link',link)
       link.click();
@@ -100,7 +100,7 @@ function LoadPGN({ fens, responsePGN }) {
         </button>
 
         <button
-            onClick={downloadFile}
+            onClick={() => downloadFile(responsePGN)}
             className="rounded bg-slate-300 px-4 py-2 text-black">
             Download game
           </button>
