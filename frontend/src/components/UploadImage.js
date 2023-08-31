@@ -71,11 +71,14 @@ function UploadImage() {
   }
 
   return (
-    <div>
+    <div  className="row flex items-center">
       <div className="upload btn-container mt-4">
           <h2>Upload Chess Scoresheet:</h2>
           <input type="file" onChange={handleChange} className='rounded bg-slate-300 px-4 py-2 text-black'/>
-          <img src={file} />
+          <div className='row '>
+          <div className='col-lg-3 col-md-10 col-sm-10'></div>
+            <img src={file} className='col-lg-6 col-md-10 col-sm-10'/>
+          </div>
       </div>
 
       <div className="btn-container mt-4">
