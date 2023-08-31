@@ -1,24 +1,29 @@
-import Webcam from "react-webcam";
-import React, { useRef, useState } from "react";
+import React, {useState} from 'react'
 import Chess from "chess.js";
 import LoadPGN from "./LoadPGN";
-import UploadImage from "./UploadImage";
 
-function Camera() {
-  const webcamRef = useRef(null);
+function UploadImage() {
+  const [file, setFile] = useState();
   const [imgSrc, setImgSrc] = useState(null);
   const [fens, setFens] = useState([]);
-  const [loading, setLoading] = useState(false);
   const [responsePGN, setResponsePGN] = useState([])
 
-  async function OnClick() {
+  function handleChange(e) {
+    console.log(e.target.files);
+    const image_file = URL.createObjectURL(e.target.files[0])
+    setFile(image_file)
+    setImgSrc(image_file);
+    console.log(imgSrc);
+}
+
+
+
+
+   async function OnClick() {
     console.log("Starting the callback");
-    const imageSrc = webcamRef.current.getScreenshot();
-    setImgSrc(imageSrc);
-    setLoading(true);
 
     try {
-      const imageBlob = await (await fetch(imageSrc)).blob();
+      const imageBlob = await (await fetch(imgSrc)).blob();
 
       const formData = new FormData();
       formData.append("img", imageBlob, "image.png");
@@ -61,48 +66,29 @@ function Camera() {
       console.log("Error:", error.message);
     } finally {
       console.log("Finished fetch");
-      setLoading(false);
+
     }
   }
 
-
   return (
-    <>
-      {imgSrc ? (
-        <div>
-          {loading ? (
-            <div className="mt-4 flex items-center justify-center">
-              <progress className="progress-bar w-full" max="100"></progress>
-              <div className="ml-4">Processing...</div>
-            </div>
-          ) : null}
+    <div>
+      <div className="upload btn-container mt-4">
+          <h2>Upload Chess Scoresheet:</h2>
+          <input type="file" onChange={handleChange} className='rounded bg-slate-300 px-4 py-2 text-black'/>
+          <img src={file} />
+      </div>
 
-          <LoadPGN fens={fens} />
-        </div>
-      ) : (
-        <div className="row camera flex items-center">
-            <div>
-          <Webcam
-            height={600}
-            width={600}
-            ref={webcamRef}
-            screenshotFormat="image/png"
-          />
-          <div className="btn-container mt-4">
-            <button
+      <div className="btn-container mt-4">
+        <button
               onClick={OnClick}
               className="rounded bg-slate-300 px-4 py-2 text-black"
-            >
-              Capture photo
-            </button>
-            </div>
+        >
+        API request
+        </button>
+      </div>
 
-
-
-          </div>
-        </div>
-      )}
-    </>
-  );
+    </div>
+  )
 }
-export default Camera;
+
+export default UploadImage

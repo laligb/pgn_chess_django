@@ -6,6 +6,7 @@ import LoadPGN from './components/LoadPGN';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Nav from './components/Nav';
 import {Routes, Route, Link } from "react-router-dom";
+import UploadImage from './components/UploadImage';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
 
         <Routes>
           <Route path="/" element={ <Camera />} />
+          <Route path="/upload" element= { <UploadImage/>}/>
         </Routes>
 
           {/* <PlayRandomMoveEngine /> */}
