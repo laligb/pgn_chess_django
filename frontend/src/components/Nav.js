@@ -1,9 +1,7 @@
 import React from 'react'
 import { Link, useNavigate} from 'react-router-dom'
-import Dropdown from 'react-bootstrap/Dropdown';
-import DropdownButton from 'react-bootstrap/DropdownButton';
-import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import {useParams} from 'react-router-dom'
+
 
 
 function Nav() {
@@ -18,9 +16,14 @@ return (
 
     <div class="container-fluid">
         <h1 className="navbar-brand">Digitization Handwritten Chess Game Scoresheets</h1>
-        <div className='</div>'>
-        <Link to="/camera" className="me-2">Camera </Link>
-        <Link to="/" className="me-2">Chessboard</Link>
+        <div className=''>
+        <Link to="/" className="me-2">Camera</Link>
+        <Link
+          to="https://docs.google.com/presentation/d/1iTzYNTvwiY2zQe1F5oXYlJ-SuYl84hvOaCwS4CbMx68/edit?usp=sharing"
+          className="me-2"
+          target="_blank">
+          Slides
+        </Link>
         </div>
       </div>
 

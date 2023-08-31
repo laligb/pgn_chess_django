@@ -11,19 +11,18 @@ function App() {
   return (
     <div className="App">
       <header className="">
+
+        {/* USECONTEXT TO USE FOR */}
        <Nav />
         </header>
       <div className="container">
 
 
         <Routes>
-          <Route path="/" element={<LoadPGN />} />
-          <Route path="/camera" element={ <Camera />} />
+          <Route path="/" element={ <Camera />} />
         </Routes>
 
           {/* <PlayRandomMoveEngine /> */}
-
-
 
       </div>
     </div>

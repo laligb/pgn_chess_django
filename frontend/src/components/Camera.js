@@ -1,10 +1,14 @@
 import Webcam from "react-webcam";
-import { useRef, useState } from "react";
+import React, { useRef, useState } from "react";
+import Chess from "chess.js";
+import LoadPGN from "./LoadPGN";
 
 function Camera() {
   const webcamRef = useRef(null);
   const [imgSrc, setImgSrc] = useState(null);
+  const [fens, setFens] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [responsePGN, setResponsePGN] = useState([])
 
   async function OnClick() {
     console.log("Starting the callback");
@@ -13,18 +17,40 @@ function Camera() {
     setLoading(true);
 
     try {
-      // Convert the base64 image data to a binary blob
       const imageBlob = await (await fetch(imageSrc)).blob();
 
-      // Create a FormData object to send the image as a binary file
       const formData = new FormData();
-      formData.append("image", imageBlob, "image.png");
+      formData.append("img", imageBlob, "image.png");
 
-      const response = await fetch("https://chess-yarc62mhna-ew.a.run.app/upload", {
-        method: "POST",
-        body: formData,
-      });
+      const response = await fetch(
+        "https://chess-yarc62mhna-ew.a.run.app/upload",
+        {
+          method: "POST",
+          body: formData,
+        },
+      );
+      const pgn = await response.json();
+      console.log(pgn);
+      setResponsePGN(pgn);
 
+      const game = new Chess();
+      const fenList = [];
+      const replacedPgn = pgn
+        .replace(/0-0-0/g, "O-O-O")
+        .replace(/0-0/g, "O-O")
+        .trim();
+      const cleanPgn = replacedPgn
+        .replace(/\d+\./g, "")
+        .replace(/[\r\n]+/g, " ");
+      const moves = cleanPgn.split(" ");
+
+
+      for (let i = 0; i < moves.length; i++) {
+        game.move(moves[i], { sloppy: true });
+        fenList.push(game.fen());
+      }
+      setFens(fenList);
+      console.log(fenList);
       if (response.ok) {
         console.log("Image uploaded successfully");
       } else {
@@ -38,27 +64,40 @@ function Camera() {
     }
   }
 
+
+
   return (
-    <div className='row' >
+    <>
       {imgSrc ? (
-        <img src={imgSrc} alt="webcam" />
+        <div>
+          {loading ? (
+            <div className="mt-4 flex items-center justify-center">
+              <progress className="progress-bar w-full" max="100"></progress>
+              <div className="ml-4">Processing...</div>
+            </div>
+          ) : null}
+
+          <LoadPGN fens={fens} />
+        </div>
       ) : (
-        <Webcam
-          height={578}
-          width={483}
-          ref={webcamRef}
-          screenshotFormat="image/png"
-        />
+        <div className="camera flex items-center justify-center">
+          <Webcam
+            height={600}
+            width={600}
+            ref={webcamRef}
+            screenshotFormat="image/png"
+          />
+          <div className="btn-container mt-4">
+            <button
+              onClick={OnClick}
+              className="rounded bg-slate-300 px-4 py-2 text-black"
+            >
+              Capture photo
+            </button>
+          </div>
+        </div>
       )}
-      <div className="btn-container">
-        <button onClick={OnClick}>Capture photo</button>
-      </div>
-    </div>
+    </>
   );
 }
-
 export default Camera;
-
-// 1: 1.166667
-// width - 1450
-// height - 1734
