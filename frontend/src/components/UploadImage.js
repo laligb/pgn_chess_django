@@ -1,22 +1,23 @@
 import React, {useState} from 'react'
 import Chess from "chess.js";
 import LoadPGN from "./LoadPGN";
+import { useChess } from "../contexts/ChessContext";
 
 function UploadImage() {
-  const [file, setFile] = useState();
-  const [imgSrc, setImgSrc] = useState(null);
-  const [fens, setFens] = useState([]);
-  const [responsePGN, setResponsePGN] = useState([])
+  // const [file, setFile] = useState();
+  // const [imgSrc, setImgSrc] = useState(null);
+  // const [fens, setFens] = useState([]);
+  // const [responsePGN, setResponsePGN] = useState([])
+  const {imgSrc, fens,  loading, responsePGN, file, dispatch} = useChess();
+
 
   function handleChange(e) {
     console.log(e.target.files);
     const image_file = URL.createObjectURL(e.target.files[0])
-    setFile(image_file)
-    setImgSrc(image_file);
+    dispatch({type: "file/set", payload: image_file});
+    dispatch({type: "imgSrc/set", payload: image_file});
     console.log(imgSrc);
 }
-
-
 
 
    async function OnClick() {
@@ -37,7 +38,7 @@ function UploadImage() {
       );
       const pgn = await response.json();
       console.log(pgn);
-      setResponsePGN(pgn);
+      dispatch({type: "responsePGN/set", payload: pgn});
 
       const game = new Chess();
       const fenList = [];
@@ -55,7 +56,7 @@ function UploadImage() {
         game.move(moves[i], { sloppy: true });
         fenList.push(game.fen());
       }
-      setFens(fenList);
+      dispatch({type: "fens/set", payload: fenList})
       console.log(fenList);
       if (response.ok) {
         console.log("Image uploaded successfully");

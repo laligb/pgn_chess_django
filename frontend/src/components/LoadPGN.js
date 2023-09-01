@@ -3,6 +3,7 @@ import React, {useState, useEffect, useCallback} from 'react';
 import Chess from "chess.js";
 import { Chessboard } from "react-chessboard";
 import { Link} from 'react-router-dom'
+import { useChess } from '../contexts/ChessContext'
 
 
 function LoadPGN({ fens, responsePGN }) {
@@ -58,6 +59,14 @@ function LoadPGN({ fens, responsePGN }) {
     }
   };
 
+  const {dispatch} = useChess()
+
+  function updateCamera() {
+    console.log('Onclick Works')
+    dispatch({type:"reset"})
+
+  };
+
 
   function downloadFile({responsePGN}){
 
@@ -78,10 +87,11 @@ function LoadPGN({ fens, responsePGN }) {
       <div className="col-lg-6 col-md-6 col-sm-10">
 
 
-
+       <div className='chessboard'>
         <Chessboard
           position={fens[moveIndex]}
         />
+        </div>
 
       <div className="mt-2">
         <button
@@ -103,6 +113,11 @@ function LoadPGN({ fens, responsePGN }) {
             onClick={() => downloadFile(responsePGN)}
             className="rounded bg-slate-300 px-4 py-2 text-black">
             Download game
+          </button>
+
+          <button onClick={()=> updateCamera()}
+            className="rounded bg-slate-300 px-4 py-2 text-black">
+            Reset
           </button>
       </div>
 

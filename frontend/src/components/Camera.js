@@ -3,19 +3,22 @@ import React, { useRef, useState } from "react";
 import Chess from "chess.js";
 import LoadPGN from "./LoadPGN";
 import UploadImage from "./UploadImage";
+import { useChess } from "../contexts/ChessContext";
 
 function Camera() {
   const webcamRef = useRef(null);
-  const [imgSrc, setImgSrc] = useState(null);
-  const [fens, setFens] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [responsePGN, setResponsePGN] = useState([])
+  // const [imgSrc, setImgSrc] = useState(null);
+  // const [fens, setFens] = useState([]);
+  // const [loading, setLoading] = useState(false);
+  // const [responsePGN, setResponsePGN] = useState([])
+  const {imgSrc, fens,  loading, responsePGN, dispatch} = useChess();
+
 
   async function OnClick() {
     console.log("Starting the callback");
     const imageSrc = webcamRef.current.getScreenshot();
-    setImgSrc(imageSrc);
-    setLoading(true);
+    dispatch({type: "imgSrc/set", payload: imageSrc});
+    dispatch({type: "loading/set", payload: true});
 
     try {
       const imageBlob = await (await fetch(imageSrc)).blob();
@@ -32,7 +35,7 @@ function Camera() {
       );
       const pgn = await response.json();
       console.log(pgn);
-      setResponsePGN(pgn);
+      dispatch({type: "responsePGN/set", payload: pgn});
 
       const game = new Chess();
       const fenList = [];
@@ -50,7 +53,7 @@ function Camera() {
         game.move(moves[i], { sloppy: true });
         fenList.push(game.fen());
       }
-      setFens(fenList);
+      dispatch({type: "fens/set", payload: fenList});
       console.log(fenList);
       if (response.ok) {
         console.log("Image uploaded successfully");
@@ -61,7 +64,7 @@ function Camera() {
       console.log("Error:", error.message);
     } finally {
       console.log("Finished fetch");
-      setLoading(false);
+      dispatch({type: "loading/set", payload: false});
     }
   }
 
