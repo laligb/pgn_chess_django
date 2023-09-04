@@ -63,30 +63,23 @@ const missedPGN= [
 
 
 function returnMissedMove(pgn){
-  //const game = new Chess();
-  const pgnString = pgn.join('\n');
-
   const missedGame = new Chess();
-  const pgnStringMissed = pgn.join('\n');
-  missedGame.load_pgn(pgnStringMissed, { strict: true })
-  const missedMoves = missedGame.history({ verbose: false });
-  //console.log(missedMoves)
-
+  const pgnString = pgn.join('\n');
+  missedGame.load_pgn(pgnString, { strict: true })
 
   const missedFull = missedGame.history({verbose: true})
-  console.log("index of missed move ",missedFull.length)
+  console.log("index of missed move ", Math.floor(missedFull.length/2 + 1))
   let indexOfMissedMove = missedFull.length;
-  console.log("index of missed move ", indexOfMissedMove )
 
-  //const missed = missedGame.history({ verbose: false });
   let legalMoves = missedGame.moves()
-
   let gamesVersion = allMovesToGames(missedGame, pgnString, legalMoves, indexOfMissedMove);
-  //console.log(gamesVersion);
-
   let bestVersion =  findBestMove(gamesVersion, indexOfMissedMove,legalMoves)
-  console.log(bestVersion);
-  return bestVersion;
+  let restoredPGN = createNewPGN(pgnString, indexOfMissedMove, bestVersion[1]);
+
+  console.log(bestVersion[1]);
+  console.log(restoredPGN);
+
+  return restoredPGN;
 }
 
 // Returns all possible games with legal moves
@@ -97,9 +90,7 @@ function allMovesToGames(missedGame, pgn, legalMoves, indexOfMissedMove){
     copiedMissedGame.load(missedGame.fen());
     let copiedMissPGN = pgn;
 
-    //console.log(copiedMissPGN);
     let moveNumber = Math.floor(indexOfMissedMove/2) + 1;
-
     if (indexOfMissedMove % 2 === 0){
       copiedMissPGN = copiedMissPGN.replace(`${moveNumber}.`, `${moveNumber}.${legalMoves[i]}`);
     }else{
@@ -110,6 +101,7 @@ function allMovesToGames(missedGame, pgn, legalMoves, indexOfMissedMove){
     copiedMissedGame.load_pgn(copiedMissPGN)
     gamesVersion.push(copiedMissedGame)
   }
+
   return gamesVersion;
 }
 
@@ -127,15 +119,22 @@ function findBestMove(gamesVersion, indexOfMissedMove,legalMoves ){
       bestMove = version[indexOfMissedMove]
     }
   }
-  console.log(bestMove)
-  return version;
-
+  return [version, bestMove];
 }
 
 // Combine to PGN file
-function createNewPGN(moves, header){
+function createNewPGN(initialPGN, indexOfMissedMove, bestMove){
+  let finalPGN = "";
+  let moveNumber = Math.floor(indexOfMissedMove/2) + 1;
 
+  if (indexOfMissedMove % 2 === 0){
+    finalPGN = initialPGN.replace(`${moveNumber}.`, `${moveNumber}.${bestMove}`);
+  }else{
+    console.log(`${moveNumber + 1}.`)
+    finalPGN = initialPGN.replace(`${moveNumber + 1}.`, `${bestMove} ${moveNumber}.`);
+  }
+  return finalPGN;
 }
 
 
-console.log(returnMissedMove(missedPGN))
+returnMissedMove(missedPGN)
