@@ -146,4 +146,4 @@ function createNewPGN(initialPGN, indexOfMissedMove, bestMove){
   return finalPGN;
 }
 
-returnMissedMove(missedPGN)
+export default returnMissedMove;
