@@ -1,5 +1,7 @@
 // Algorithm to find missed move
 const { Chess } = require("chess.js");
+const fs = require('fs');
+
 
 let pgnHeader = [
   '[Event "Casual Game"]',
@@ -133,8 +135,15 @@ function createNewPGN(initialPGN, indexOfMissedMove, bestMove){
     console.log(`${moveNumber + 1}.`)
     finalPGN = initialPGN.replace(`${moveNumber + 1}.`, `${bestMove} ${moveNumber}.`);
   }
+
+  fs.writeFile('public/games/game.pgn', finalPGN, err => {
+    if (err) {
+      console.error(err); // Handle the error if one occurs
+    } else {
+      console.log('Data has been written to the file.'); // File written successfully
+    }
+  });
   return finalPGN;
 }
-
 
 returnMissedMove(missedPGN)

@@ -7,10 +7,7 @@ import { useChess } from "../contexts/ChessContext";
 
 function Camera() {
   const webcamRef = useRef(null);
-  // const [imgSrc, setImgSrc] = useState(null);
-  // const [fens, setFens] = useState([]);
-  // const [loading, setLoading] = useState(false);
-  // const [responsePGN, setResponsePGN] = useState([])
+
   const {imgSrc, fens,  loading, responsePGN, dispatch} = useChess();
 
 
