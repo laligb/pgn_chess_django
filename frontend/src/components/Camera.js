@@ -30,6 +30,8 @@ function Camera() {
           body: formData,
         },
       );
+      console.log(response)
+
       const pgn = await response.json();
       console.log(pgn);
       dispatch({type: "responsePGN/set", payload: pgn});

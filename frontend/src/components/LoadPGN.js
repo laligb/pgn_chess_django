@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useCallback} from 'react';
+import React, {useState} from 'react';
 import Chess from "chess.js";
 import { Chessboard } from "react-chessboard";
 import { useChess } from '../contexts/ChessContext'
@@ -43,8 +43,6 @@ function LoadPGN({ fens, responsePGN }) {
 
   const moves = game.history({ verbose: true });
 
-
-
   const handlePreviousMove = () => {
     if (moveIndex > 0) {
       setMoveIndex(moveIndex - 1);
@@ -68,22 +66,23 @@ function LoadPGN({ fens, responsePGN }) {
 
   function downloadFile({responsePGN}){
 
-      const blob = new Blob([responsePGN], { type: "text/plain" });
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.download = "chess-games.txt";
-      link.href = url;
-      console.log('download link',link)
-      link.click();
+      if (typeof responsePGN !== 'undefined' && responsePGN !== null){
+        console.log(responsePGN)
+        const blob = new Blob([responsePGN], { type: "text/plain" });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.download = "chess-games.txt";
+        link.href = url;
+        console.log('download link',link)
+        link.click();
+      }
 
   };
 
 
   return (
     <div className='row d-flex justify-content-center'>
-
       <div className="col-lg-6 col-md-6 col-sm-10">
-
 
        <div className='chessboard'>
         <Chessboard
@@ -118,8 +117,6 @@ function LoadPGN({ fens, responsePGN }) {
             Reset
           </button>
       </div>
-
-
 
          <div className='notation'>{moves[moveIndex]?.san}</div>
         </div>
