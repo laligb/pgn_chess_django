@@ -1,8 +1,6 @@
 import React, {useState, useEffect, useCallback} from 'react';
-// import {PGN} from './pgn_example';
 import Chess from "chess.js";
 import { Chessboard } from "react-chessboard";
-import { Link} from 'react-router-dom'
 import { useChess } from '../contexts/ChessContext'
 
 
