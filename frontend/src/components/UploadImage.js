@@ -34,6 +34,7 @@ function UploadImage() {
         {
           method: "POST",
           body: formData,
+          headers: {'Content-Type': 'multipart/form-data'},
         },
       );
       const pgn = await response.json();
