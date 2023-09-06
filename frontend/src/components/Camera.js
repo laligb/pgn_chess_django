@@ -8,7 +8,7 @@ import { useChess } from "../contexts/ChessContext";
 function Camera() {
   const webcamRef = useRef(null);
 
-  const {imgSrc, fens,  loading, responsePGN, dispatch} = useChess();
+  const {imgSrc, fens,  loading, responsePGN, file, dispatch} = useChess();
 
 
   async function OnClick() {
@@ -21,16 +21,15 @@ function Camera() {
       const imageBlob = await (await fetch(imageSrc)).blob();
 
       const formData = new FormData();
-      formData.append("img", imageBlob, "image.png");
+      formData.append("img", imageBlob);
+
 
       const response = await fetch(
         "https://chess-yarc62mhna-ew.a.run.app/upload",
         {
           method: "POST",
           body: formData,
-          headers: {
-            "Content-type": "application/json; charset=UTF-8",
-          }
+
         },
       );
       console.log(response)

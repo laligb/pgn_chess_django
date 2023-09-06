@@ -5,6 +5,8 @@ import {Routes, Route, Link } from "react-router-dom";
 import { ChessProvider } from './contexts/ChessContext';
 import CameraLayout from './components/CameraLayout';
 import UploadImageLayout from './components/UploadImageLayout';
+import GetImage from './components/GetImage';
+import GetImageLayout from './components/GetImageLayout';
 
 function App() {
   return (
@@ -13,8 +15,9 @@ function App() {
 
           <ChessProvider>
           <Routes>
-            <Route path="/" element={ <CameraLayout />} />
+
             <Route path="/upload" element= { <UploadImageLayout/>}/>
+            <Route path="/" element= { <GetImageLayout/>}/>
           </Routes>
           </ChessProvider>
 

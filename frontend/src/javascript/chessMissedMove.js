@@ -63,10 +63,32 @@ const missedPGN= [
   '23.Bd7+ Kf8 24.Bxe7# 1-0',
 ]
 
+const pgn_david = [
+  '[Event "Casual Game"]',
+  '[Site "Berlin GER"]',
+  '[Date "1852.??.??"]',
+  '[EventDate "?"]',
+  '[Round "?"]',
+  '[Result "1-0"]',
+  '[White "Adolf Anderssen"]',
+  '[Black "Jean Dufresne"]',
+  '[ECO "C52"]',
+  '[WhiteElo "?"]',
+  '[BlackElo "?"]',
+  '[PlyCount "47"]',
+  '',
+  '1.e4 e6 2.d4 d5 3.Nc3 missed 4.missed Bf5 5.Bd3 e6 6.Nf3 Nd7 7.Bg5 Qa5 8.c3 h6 9.Bh4 missed 10.missed Nf6 11.Bd3 Be8 12.O-O O-O 13.Qb3 Qb6 14.Ne5 missed 15.axb3 missed 16.missed Nd5 17.h3 Rd1 18.Rd7 missed 19.f6 missed 20.Kg7 Bb2 21.b5 Bc4 22.Re3 Bb3 23.missed Ra6 24.Bf8 Rf1 25.g5 g4 26.Be7 Ra2 27.Bd8 f3 28.Kf2 Bb6 29.Kg2 Re8 30.h4 f5 31.e5 Rh8 32.f4 Re5 33.Kf6 Bg1 34.missed g4 35.missed g3 36.Rg4 missed 37.c3 g4 38.g3 g4 39.c3 c4 40.missed g4 41.b3 d4 42.missed c3 43.missed c4 44.missed d4 45.missed c3 46.missed b3 47.g4 c4 48.missed c5 49.g4 c5 50.g4 d4 51.g4 g4 52.missed a3 53.g4 g3 54.g4 g4 55.g4 c3 56.g4 g3 57.g4 g3 58.g4 d4 59.g4 g4 60.c3 g4 61.g3'
+];
 
-function returnMissedMove(pgn){
+console.log(pgn_david.join('\n'));
+
+
+export function returnMissedMove(pgn){
   const missedGame = new Chess();
-  const pgnString = pgn.join('\n');
+  let pgnString = pgn;
+  if (Array.isArray(pgn)){
+    pgnString = pgn.join('\n');
+  }
   missedGame.load_pgn(pgnString, { strict: true })
 
   const missedFull = missedGame.history({verbose: true})
@@ -74,6 +96,8 @@ function returnMissedMove(pgn){
   let indexOfMissedMove = missedFull.length;
 
   let legalMoves = missedGame.moves()
+
+  console.log("All legal moves: ", legalMoves)
   let gamesVersion = allMovesToGames(missedGame, pgnString, legalMoves, indexOfMissedMove);
   let bestVersion =  findBestMove(gamesVersion, indexOfMissedMove,legalMoves)
   let restoredPGN = createNewPGN(pgnString, indexOfMissedMove, bestVersion[1]);
@@ -93,15 +117,14 @@ function allMovesToGames(missedGame, pgn, legalMoves, indexOfMissedMove){
     let copiedMissPGN = pgn;
 
     let moveNumber = Math.floor(indexOfMissedMove/2) + 1;
-    if (indexOfMissedMove % 2 === 0){
-      copiedMissPGN = copiedMissPGN.replace(`${moveNumber}.missed`, `${moveNumber}.${legalMoves[i]}`);
-    }else{
-      console.log(`${moveNumber + 1}.`)
-      copiedMissPGN = copiedMissPGN.replace(`missed ${moveNumber + 1}.`, `${legalMoves[i]} ${moveNumber}.`);
-    }
+    //console.log(`current legal move of moveNumber ${moveNumber}`, legalMoves[i])
+    copiedMissPGN = copiedMissPGN.replace(`missed`, `${legalMoves[i]}`);
+
 
     copiedMissedGame.load_pgn(copiedMissPGN)
+
     gamesVersion.push(copiedMissedGame)
+
   }
 
   return gamesVersion;
@@ -128,25 +151,53 @@ function findBestMove(gamesVersion, indexOfMissedMove,legalMoves ){
 function createNewPGN(initialPGN, indexOfMissedMove, bestMove){
   let finalPGN = "";
   let moveNumber = Math.floor(indexOfMissedMove/2) + 1;
+  console.log(moveNumber)
 
-  if (indexOfMissedMove % 2 === 0){
-    finalPGN = initialPGN.replace(`${moveNumber}.missed`, `${moveNumber}.${bestMove}`);
-  }else{
-    console.log(`${moveNumber + 1}.`)
-    finalPGN = initialPGN.replace(`missed ${moveNumber + 1}.`, `${bestMove} ${moveNumber}.`);
-  }
+
+  finalPGN = initialPGN.replace(`missed`, `${bestMove}`);
+
 
   fs.writeFile('public/games/game.pgn', finalPGN, err => {
     if (err) {
       console.error(err); // Handle the error if one occurs
     } else {
-      console.log('Data has been written to the file.'); // File written successfully
+      //console.log('Data has been written to the file.'); // File written successfully
     }
   });
   return finalPGN;
 }
 
+// let game = returnMissedMove(missedPGN)
 
 
-returnMissedMove(missedPGN)
-// export default returnMissedMove;
+// while (game.includes("missed")){
+//   game = returnMissedMove(game)
+// }
+// console.log(typeof(game))
+
+
+
+let david = returnMissedMove(pgn_david)
+
+
+while (david.includes("missed")){
+  david = returnMissedMove(david)
+}
+console.log(david)
+
+
+
+const davidGame = new Chess();
+console.log(pgn_david)
+davidGame.load_pgn(pgn_david.join('\n'))
+//console.log(davidGame)
+console.log(davidGame.history())
+
+const davidGameRestored = new Chess();
+console.log(david)
+davidGameRestored.load_pgn(david)
+//console.log(davidGame)
+console.log(davidGameRestored.history())
+
+
+//export default returnMissedMove;

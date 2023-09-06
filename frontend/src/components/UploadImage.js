@@ -2,13 +2,17 @@ import React, {useState} from 'react'
 import Chess from "chess.js";
 import LoadPGN from "./LoadPGN";
 import { useChess } from "../contexts/ChessContext";
+//import returnMissedMove from 'src/javascript/chessMissedMove.js';
 
 function UploadImage() {
   // const [file, setFile] = useState();
   // const [imgSrc, setImgSrc] = useState(null);
   // const [fens, setFens] = useState([]);
   // const [responsePGN, setResponsePGN] = useState([])
-  const {imgSrc, fens,  loading, responsePGN, file, dispatch} = useChess();
+
+  //console.log(typeof(returnMissedMove))
+
+  const {imgSrc, fens,  loading, responsePGN, file, dispatch,OnClick} = useChess();
 
 
   function handleChange(e) {
@@ -20,57 +24,6 @@ function UploadImage() {
 }
 
 
-   async function OnClick() {
-    console.log("Starting the callback");
-
-    try {
-      const imageBlob = await (await fetch(imgSrc)).blob();
-
-      const formData = new FormData();
-      formData.append("img", imageBlob, "image.png");
-
-      const response = await fetch(
-        "https://chess-yarc62mhna-ew.a.run.app/upload",
-        {
-          method: "POST",
-          body: formData,
-          headers: {'Content-Type': 'multipart/form-data'},
-        },
-      );
-      const pgn = await response.json();
-      console.log(pgn);
-      dispatch({type: "responsePGN/set", payload: pgn});
-
-      const game = new Chess();
-      const fenList = [];
-      const replacedPgn = pgn
-        .replace(/0-0-0/g, "O-O-O")
-        .replace(/0-0/g, "O-O")
-        .trim();
-      const cleanPgn = replacedPgn
-        .replace(/\d+\./g, "")
-        .replace(/[\r\n]+/g, " ");
-      const moves = cleanPgn.split(" ");
-
-
-      for (let i = 0; i < moves.length; i++) {
-        game.move(moves[i], { sloppy: true });
-        fenList.push(game.fen());
-      }
-      dispatch({type: "fens/set", payload: fenList})
-      console.log(fenList);
-      if (response.ok) {
-        console.log("Image uploaded successfully");
-      } else {
-        console.log("Image upload failed");
-      }
-    } catch (error) {
-      console.log("Error:", error.message);
-    } finally {
-      console.log("Finished fetch");
-
-    }
-  }
 
   return (
     <div  className="row flex items-center">
