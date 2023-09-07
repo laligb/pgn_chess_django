@@ -11,4 +11,8 @@
 [BlackElo "?"]
 [PlyCount "47"]
 
-1.e4 e6 2.d4 d5 3.Nc3 e4,e6,d4,d5,Nc3,Nd7 4.e4,e6,d4,d5,Nc3 Bf5 5.Bd3 e6 6.Nf3 Nd7 7.Bg5 Qa5 8.c3 h6 9.Bh4 e4,e6,d4,d5,Nc3 10.e4,e6,d4,d5,Nc3 Nf6 11.Bd3 Be8 12.O-O O-O 13.Qb3 Qb6 14.Ne5 e4,e6,d4,d5,Nc3 15.axb3 e4,e6,d4,d5,Nc3 16.e4,e6,d4,d5,Nc3 Nd5 17.h3 Rd1 18.Rd7 e4,e6,d4,d5,Nc3 19.f6 e4,e6,d4,d5,Nc3 20.Kg7 Bb2 21.b5 Bc4 22.Re3 Bb3 23.e4,e6,d4,d5,Nc3 Ra6 24.Bf8 Rf1 25.g5 g4 26.Be7 Ra2 27.Bd8 f3 28.Kf2 Bb6 29.Kg2 Re8 30.h4 f5 31.e5 Rh8 32.f4 Re5 33.Kf6 Bg1 34.e4,e6,d4,d5,Nc3 g4 35.e4,e6,d4,d5,Nc3 g3 36.Rg4 e4,e6,d4,d5,Nc3 37.c3 g4 38.g3 g4 39.c3 c4 40.e4,e6,d4,d5,Nc3 g4 41.b3 d4 42.e4,e6,d4,d5,Nc3 c3 43.e4,e6,d4,d5,Nc3 c4 44.e4,e6,d4,d5,Nc3 d4 45.e4,e6,d4,d5,Nc3 c3 46.e4,e6,d4,d5,Nc3 b3 47.g4 c4 48.e4,e6,d4,d5,Nc3 c5 49.g4 c5 50.g4 d4 51.g4 g4 52.e4,e6,d4,d5,Nc3 a3 53.g4 g3 54.g4 g4 55.g4 c3 56.g4 g3 57.g4 g3 58.g4 d4 59.g4 g4 60.c3 g4 61.g3
+1.e4 e5 2.Nf3 Nc6 3.Bc4 Bc5 4.b4 Bxb4 5.c3 Ba5 6.d4 exd4 7.O-O
+d3 8.Qb3 Qf6 9.e5 Qg6 10.e4,e5,Nf3,Nc6,Bc4,Bc5,b4,Bxb4,c3,Ba5,d4,exd4,O-O,d3,Qb3,Qf6,e5,Qg6,Re1,Nge7,Ba3,b5,Qxb5,Rb8,Qa4,Bb6,Nbd2,Bb7,Ne4,Qf5,Bxd3,Qh5,Nf6+,gxf6,exf6,Rg8,Rad1,Qxf3,Rxe7+,Nxe7,Qxd7+,Kxd7,Bf5+,Ke8,Bd7+,Kf8,Bxe7# Nge7 11.Ba3 b5 12.Qxb5 Rb8 13.Qa4
+Bb6 14.Nbd2 Bb7 15.Ne4 Qf5 16.Bxd3 Qh5 17.Nf6+ gxf6 18.exf6
+Rg8 19.Rad1 Qxf3 20.Rxe7+ Nxe7 21.Qxd7+ Kxd7 22.Bf5+ Ke8
+23.Bd7+ Kf8 24.Bxe7# 1-0

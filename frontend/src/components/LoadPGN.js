@@ -79,6 +79,9 @@ function LoadPGN({ fens, responsePGN }) {
 
   };
 
+  //   game.move(moves[i], { sloppy: true });
+      //   fenList.push(game.fen());
+
 
   return (
     <div className='row d-flex justify-content-center'>

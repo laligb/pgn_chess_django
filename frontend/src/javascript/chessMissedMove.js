@@ -92,10 +92,8 @@ function returnMissedMove(pgn){
 
   let gamesVersion = "";
   let restoredPGN ="";
-  let [bestVersion, bestMove] = ['', '']
-  console.log(bestMove)
+  //let [bestVersion, bestMove] = ['', '']
 
-  while (pgnString.includes("missed")){
     const missedGame = new Chess();
     missedGame.load_pgn(pgnString, { strict: true })
 
@@ -108,7 +106,7 @@ function returnMissedMove(pgn){
 
     console.log("All legal moves: ", legalMoves)
     gamesVersion = allMovesToGames(missedGame, pgnString, legalMoves, indexOfMissedMove);
-    let [bestVersion, bestMove] =  findBestMove(gamesVersion, indexOfMissedMove,legalMoves);
+    const [bestVersion, bestMove] =  findBestMove(gamesVersion, indexOfMissedMove,legalMoves);
     restoredPGN = createNewPGN(pgnString, indexOfMissedMove, bestVersion);
 
     pgnString = restoredPGN;
@@ -118,7 +116,7 @@ function returnMissedMove(pgn){
     console.log('Best Version', bestVersion);
     console.log(restoredPGN);
 
-  }
+
 
   return [restoredPGN, bestVersion] ;
 }
@@ -185,7 +183,7 @@ function createNewPGN(initialPGN, indexOfMissedMove, bestMove){
   return finalPGN;
 }
 
-let game = returnMissedMove(pgn_david)
+let game = returnMissedMove(missedPGN)
 
 
 // while (game.includes("missed")){
