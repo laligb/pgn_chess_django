@@ -28,6 +28,8 @@ function reducer(state, action){
       return {...state, isBoard:true}
     case "reset":
       return initialState
+    case "reset/file":
+      return {...state, file:action.payload}
 
     default:
       throw new Error (`Not known action type ${action.type}`)
@@ -41,7 +43,7 @@ function ChessProvider({children}){
   //Dispach is function which updates all these states
 
   async function OnClick() {
-    console.log("Starting the callback");
+    console.log("Starting the OnClickEventimgSrc");
 
     try {
       const imageBlob = await (await fetch(imgSrc)).blob();
@@ -78,7 +80,12 @@ function ChessProvider({children}){
       for (let i = 0; i < moves.length; i++) {
         game.move(moves[i], { sloppy: true });
         fenList.push(game.fen());
+
+
       }
+
+
+
       dispatch({type: "fens/set", payload: fenList})
       dispatch({type:"set/isBoard", payload:true})
       console.log(fenList);
@@ -95,11 +102,27 @@ function ChessProvider({children}){
     }
   }
 
+  function takePhoto({webcamRef}) {
+    const imageSrc = webcamRef.current.getScreenshot();
+    dispatch({type: "imgSrc/set", payload: imageSrc});
+    dispatch({type: "loading/set", payload: true});
+    dispatch({type: "file/set", payload:imageSrc})
+  }
+
+  function resetFile() {
+    dispatch({type: "reset/file", payload: null});
+
+
+  }
+
+
+
+
 
 
 
   return (
-    <chessContext.Provider value={{imgSrc, fens,  loading, responsePGN, file,isBoard, dispatch, OnClick}}>
+    <chessContext.Provider value={{imgSrc, fens,  loading, responsePGN, file,isBoard, dispatch, OnClick,takePhoto, resetFile}}>
       {children}
     </chessContext.Provider>
   )

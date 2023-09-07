@@ -1,7 +1,7 @@
 .App {
   text-align: center;
   background-color: aliceblue;
-
+  /* background-color: #E3F0ED; */
 }
 
 
@@ -52,10 +52,16 @@
 
 .navbar-custom{
   background-color: rgb(1, 70, 64);
+  /* background-color: #0b322a; */
+  /* background-color: #0E4338; */
 }
 
 footer{
   padding-bottom: 10px;
   padding-top: 10px;
   color: rgb(154, 173, 178);
+}
+
+.reset{
+  color: #1c8670;
 }

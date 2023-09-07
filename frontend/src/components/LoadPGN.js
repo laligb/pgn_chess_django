@@ -113,7 +113,7 @@ function LoadPGN({ fens, responsePGN }) {
           </button>
 
           <button onClick={()=> updateCamera()}
-            className="rounded bg-slate-300 px-4 py-2 text-black">
+            className="rounded bg-slate-300 px-4 py-2 text-black reset">
             Reset
           </button>
       </div>
