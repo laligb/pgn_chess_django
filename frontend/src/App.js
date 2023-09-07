@@ -16,7 +16,7 @@ function App() {
           <ChessProvider>
           <Routes>
 
-            <Route path="/upload" element= { <UploadImageLayout/>}/>
+            {/* <Route path="/upload" element= { <UploadImageLayout/>}/> */}
             <Route path="/" element= { <GetImageLayout/>}/>
           </Routes>
           </ChessProvider>

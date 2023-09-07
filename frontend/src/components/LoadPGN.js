@@ -1,11 +1,10 @@
 import React, {useState} from 'react';
 import Chess from "chess.js";
 import { Chessboard } from "react-chessboard";
-import { useChess } from '../contexts/ChessContext'
+import { useChess } from '../contexts/ChessContext';
 
-
-function LoadPGN({ fens, responsePGN }) {
-
+function LoadPGN({ fens }) {
+  const {responsePGN} = useChess()
 
   const PGN = [
     '[Event "Casual Game"]',
@@ -31,13 +30,14 @@ function LoadPGN({ fens, responsePGN }) {
 
   const [game, setGame] = useState(new Chess());
   const [moveIndex, setMoveIndex] = useState(0);
+  console.log(responsePGN)
 
   try {
     console.log(responsePGN);
     let moves_pgn = game.load_pgn(responsePGN.join('\n'));
   }
   catch {
-    let moves_pgn = game.load_pgn(PGN.join('\n'));
+    //let moves_pgn = game.load_pgn(PGN.join('\n'));
 
   }
 
@@ -125,7 +125,7 @@ function LoadPGN({ fens, responsePGN }) {
         </div>
 
       <div className="col-lg-6 col-md-6 col-sm-10">
-        {game.pgn()}
+        <p>{responsePGN}</p>
         </div>
     </div>
   )

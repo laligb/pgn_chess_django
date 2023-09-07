@@ -8,7 +8,7 @@ function GetImage() {
 
   const webcamRef = useRef(null);
 
-  const {fens,  loading, responsePGN, file, dispatch, OnClick, isBoard, takePhoto, resetFile} = useChess();
+  const {fens,  loading, file, dispatch, OnClick, isBoard, takePhoto, resetFile} = useChess();
 
   // Upload Image
   function handleChange(e) {
@@ -16,8 +16,7 @@ function GetImage() {
     const image_file = URL.createObjectURL(e.target.files[0])
     dispatch({type: "file/set", payload: image_file});
     dispatch({type: "imgSrc/set", payload: image_file});
-    console.log(responsePGN, "Response Pgn");
-    console.log(fens, "fens");
+
 }
 
 return (
@@ -37,7 +36,7 @@ return (
       <div>
         {file ? (
           <>
-            <div className='col-lg-3 col-md-10 col-sm-10'></div>
+            <div className='row col-lg-3 col-md-10 col-sm-10'>
             <img alt="scoresheet" src={file} className='col-lg-6 col-md-10 col-sm-10' />
             <div className="btn-container mt-4">
               <button
@@ -48,6 +47,7 @@ return (
               </button>
 
               <button className="rounded bg-slate-300 px-4 py-2 text-black" onClick={resetFile}>Try again</button>
+            </div>
             </div>
           </>
         ) : (
