@@ -1,11 +1,9 @@
 import React from 'react';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {Routes, Route, Link } from "react-router-dom";
+import {Routes, Route } from "react-router-dom";
 import { ChessProvider } from './contexts/ChessContext';
-import CameraLayout from './components/CameraLayout';
-import UploadImageLayout from './components/UploadImageLayout';
-import GetImage from './components/GetImage';
+
 import GetImageLayout from './components/GetImageLayout';
 
 function App() {

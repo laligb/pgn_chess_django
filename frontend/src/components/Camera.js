@@ -1,14 +1,14 @@
 import Webcam from "react-webcam";
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import Chess from "chess.js";
 import LoadPGN from "./LoadPGN";
-import UploadImage from "./UploadImage";
+
 import { useChess } from "../contexts/ChessContext";
 
 function Camera() {
   const webcamRef = useRef(null);
 
-  const {imgSrc, fens,  loading, responsePGN, file, dispatch} = useChess();
+  const {imgSrc, fens,  loading, dispatch} = useChess();
 
 
   async function OnClick() {

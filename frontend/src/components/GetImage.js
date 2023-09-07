@@ -36,8 +36,10 @@ return (
       <div>
         {file ? (
           <>
-            <div className='row col-lg-3 col-md-10 col-sm-10'>
-            <img alt="scoresheet" src={file} className='col-lg-6 col-md-10 col-sm-10' />
+            <div className='row flex items-center'>
+            <h2>Uploaded Chess Scoresheet:</h2>
+            <div className='col-lg-4 col-md-10 col-sm-10'></div>
+            <img alt="scoresheet" src={file} className='col-lg-4 col-md-10 col-sm-10' />
             <div className="btn-container mt-4">
               <button
                 onClick={() => OnClick()}
@@ -52,6 +54,7 @@ return (
           </>
         ) : (
           <div className="row camera flex items-center">
+            <h2>Take a Photo</h2>
             <div>
               <Webcam
                 height={600}
